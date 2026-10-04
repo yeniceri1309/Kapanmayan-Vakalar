@@ -9,7 +9,9 @@
 .kutu1{
   background-color: aquamarine;
   border: 6px solid crimson;
-  text-align: center;}
+  text-align: center;
+ 
+}
 
 .kutu1>h3{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -76,8 +78,8 @@ i{
   <div class="kutu1">
      <ul class="uyf">
   <li class="hy"><a href="index.html" class="pj"><img src="home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">ANASAYFA</a></li>
-  <li class="hy"><a href="vakalar.html" class="pj"><img src="folder_open_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">VAKALAR</a></li>
-  <li class="hy"><a href="hakkımda.html" class="pj"><img src="person_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">HAKKIMDA</a></li>
+  <li class="hy"><a href="#" class="pj"><img src="folder_open_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">VAKALAR</a></li>
+  <li class="hy"><a href="#" class="pj"><img src="person_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">HAKKIMDA</a></li>
   <li class="hy"><a href="yardım_destek.html" class="pj"><img src="help_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">YARDIM DESTEK</a></li>
 </ul>
     <br><br>
@@ -103,7 +105,83 @@ i{
 
   <h5><a href="delil.png">DELİL</a></h5>
 
-<br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
+<h2>📁 DOSYAYI KAPAT</h2>
+
+<p><b>1. Fail kimdir?</b></p>
+<label><input type="radio" name="fail" value="ryota"> Ryota Tanaka</label><br>
+<label><input type="radio" name="fail" value="ahmet"> Ahmet Erdoğru</label><br>
+<label><input type="radio" name="fail" value="gizem"> Gizem Özmerdaneci</label><br>
+<label><input type="radio" name="fail" value="gizli"> Gizli Tanık</label>
+
+<p><b>2. Suç ortağı kimdir?</b></p>
+<label><input type="radio" name="ortak" value="ryota"> Ryota Tanaka</label><br>
+<label><input type="radio" name="ortak" value="ahmet"> Ahmet Erdoğru</label><br>
+<label><input type="radio" name="ortak" value="gizem"> Gizem Özmerdaneci</label><br>
+<label><input type="radio" name="ortak" value="gizli"> Gizli Tanık</label>
+
+<br><br>
+<button id="teslimBtn" onclick="dosyaKapat()">Dosyayı Başkomisere Teslim Et</button>
+<p id="hak">Kalan hak: 3</p>
+<div id="sonuc"></div>
+
+<script>
+// BURAYA DOĞRU CEVAPLARIN KOD ADLARINI YAZ:
+const dogruFail = "ryota";
+const dogruOrtak = "gizem";
+let kalanHak = 3;
+
+function kilitle() {
+  document.getElementById("teslimBtn").disabled = true;
+  document.querySelectorAll('input[type="radio"]').forEach(x => x.disabled = true);
+}
+
+function dosyaKapat() {
+  const fail = document.querySelector('input[name="fail"]:checked');
+  const ortak = document.querySelector('input[name="ortak"]:checked');
+  const el = document.getElementById("sonuc");
+  const hakEl = document.getElementById("hak");
+
+  if (!fail || !ortak) {
+    el.innerHTML = "⚠️ Hem fail hem de suç ortağını seçmelisin dedektif.";
+    return;
+  }
+  if (fail.value === ortak.value) {
+    el.innerHTML = "⚠️ Fail ile suç ortağı aynı kişi olamaz.";
+    return;
+  }
+
+  const failDogru = fail.value === dogruFail;
+  const ortakDogru = ortak.value === dogruOrtak;
+
+  if (failDogru && ortakDogru) {
+    el.innerHTML = "✅ <b>DOSYA KAPANDI.</b> Hem faili hem de gölgedeki ortağını buldun. Harika iş dedektif. – Bşk. Musab Yeniçeri";
+    kilitle();
+    try { localStorage.setItem("dosya56", "kapandi"); } catch (e) {}
+    return;
+  }
+
+  kalanHak--;
+  hakEl.textContent = "Kalan hak: " + kalanHak;
+
+  if (kalanHak === 0) {
+    el.innerHTML = "🔒 <b>DOSYA KAPANMADI.</b> Hakkın bitti. Bu dosya şimdilik çözülemedi. – Bşk. Musab Yeniçeri";
+    kilitle();
+    return;
+  }
+
+  let mesaj;
+  if (failDogru) {
+    mesaj = "Faili doğru buldun ama suç ortağı yanlış. Perde arkasında başka biri var.";
+  } else if (ortakDogru) {
+    mesaj = "Suç ortağını buldun ama fail yanlış.";
+  } else {
+    mesaj = "İkisi de yanlış.";
+  }
+  el.innerHTML = "❌ <b>DOSYA KAPANMADI.</b> " + mesaj + " Delilleri tekrar incele. Kalan hakkın: " + kalanHak;
+}
+</script>
+<br><br><br>
   <strong>⚠️ KURGUSAL İÇERİK</strong>
     Bu dosyada yer alan olaylar, kişiler, ifadeler, belgeler ve görseller
     tamamen kurgusaldır. İçerikler yapay zekâ destekli olarak oluşturulmuştur.

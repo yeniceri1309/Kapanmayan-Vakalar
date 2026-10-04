@@ -119,12 +119,63 @@ div ul ol a:hover{
     <ol><a href="maktülün_komşusu_havva_kültürlü_tanık_beyanı.pdf">MAKTÜLÜN KOMŞUSU</a></ol>
   </ul>
 <br><br><br>
-<div class="kurgusal-uyari">
+
+<br><br><br><br><br>
+<h2>📁 DOSYAYI KAPAT</h2>
+<p><b>Serhat Altun'un ölüm sebebi nedir?</b></p>
+
+<label><input type="radio" name="sebep" value="intihar"> İntihar</label><br>
+<label><input type="radio" name="sebep" value="kalp"> Ani gelişen kalp krizi</label><br>
+<label><input type="radio" name="sebep" value="akciger"> Bilinmeyen akciğer kanseri</label><br>
+<label><input type="radio" name="sebep" value="zehir"> Kasıtlı zehirlenme</label><br>
+<label><input type="radio" name="sebep" value="darp"> Künt travma ile darp</label>
+
+<br><br>
+<button id="teslimBtn" onclick="dosyaKapat()">Dosyayı Başkomisere Teslim Et</button>
+<p id="hak">Kalan hak: 2</p>
+<p id="sonuc"></p>
+<br><br><br><br><br>
+ <div class="kurgusal-uyari">
     <strong>⚠️ KURGUSAL İÇERİK</strong>
     Bu dosyada yer alan olaylar, kişiler, ifadeler, belgeler ve görseller
     tamamen kurgusaldır. İçerikler yapay zekâ destekli olarak oluşturulmuştur.
     Gerçek kişi, olay veya soruşturmalarla bağlantısı yoktur.
 </div>
+<script>
+// DOĞRU CEVABIN KOD ADINI BURAYA YAZ (intihar, kalp, kronik, zehir, darp):
+const dogruSebep = "akciger";
+let kalanHak = 2;
+
+function dosyaKapat() {
+  const secili = document.querySelector('input[name="sebep"]:checked');
+  const el = document.getElementById("sonuc");
+  const hakEl = document.getElementById("hak");
+  const btn = document.getElementById("teslimBtn");
+
+  if (!secili) {
+    el.innerHTML = "⚠️ Bir ölüm sebebi seçmelisin dedektif.";
+    return;
+  }
+
+  if (secili.value === dogruSebep) {
+    el.innerHTML = "✅ <b>DOSYA KAPANDI.</b> Ölüm sebebini doğru tespit ettin. Harika iş dedektif. – Bşk. Musab Yeniçeri";
+    btn.disabled = true;
+    try { localStorage.setItem("dosya97", "kapandi"); } catch (e) {}
+    return;
+  }
+
+  kalanHak--;
+  hakEl.textContent = "Kalan hak: " + kalanHak;
+
+  if (kalanHak === 1) {
+    el.innerHTML = "❌ <b>YANLIŞ.</b> Tek hakkın kaldı. Otopsi raporunu ve terim açıklama notunu tekrar oku dedektif.";
+  } else {
+    el.innerHTML = "🔒 <b>DOSYA KAPANMADI.</b> Hakkın bitti. Bu dosya şimdilik çözülemedi. – Bşk. Musab Yeniçeri";
+    btn.disabled = true;
+    document.querySelectorAll('input[name="sebep"]').forEach(x => x.disabled = true);
+  }
+}
+</script>
 <br><br><br><br><br>
 <p style="padding-right: 10px;">© 2026 KAPANMAYAN VAKALAR — Tüm Hakları Saklıdır.</p>
 
